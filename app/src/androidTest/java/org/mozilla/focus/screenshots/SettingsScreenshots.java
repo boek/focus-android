@@ -42,6 +42,7 @@ import static android.support.test.espresso.matcher.PreferenceMatchers.withTitle
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -185,7 +186,7 @@ public class SettingsScreenshots extends ScreenshotTest {
         onView(withText(urlAutocompletemenu))
                 .check(matches(isDisplayed()));
         Espresso.pressBack();
-
+        
         /* scroll down */
         assertTrue(TestHelper.settingsHeading.waitForExists(waitingTime));
         UiScrollable settingsView = new UiScrollable(new UiSelector().scrollable(true));
