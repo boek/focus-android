@@ -182,7 +182,6 @@ public class SettingsScreenshots extends ScreenshotTest {
         /* Remove dialog */
         onView(withText(getString(R.string.preference_autocomplete_title_remove)))
                 .check(matches(isDisplayed()));
-        TestHelper.pressBackKey();  // remove keyboard
         Screengrab.screenshot("Autocomplete_Custom_URL_Remove_Dialog");
         Espresso.pressBack();
         onView(withText(addCustomURLAction))
