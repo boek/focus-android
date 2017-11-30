@@ -147,7 +147,11 @@ public class SettingsScreenshots extends ScreenshotTest {
                 .getString(R.string.pref_key_screen_custom_domains);
         onData(withKey(key))
                 .perform(click());
+<<<<<<< HEAD:app/src/androidTest/java/org/mozilla/focus/screenshots/SettingsScreenshots.java
 
+=======
+        device.waitForIdle();
+>>>>>>> reset after each test:app/src/androidTest/java/org/mozilla/focus/activity/screenshots/SettingsScreenshots.java
         final String addCustomURLAction = getString(R.string.preference_autocomplete_action_add);
         onView(withText(addCustomURLAction))
                 .check(matches(isDisplayed()));
@@ -162,6 +166,7 @@ public class SettingsScreenshots extends ScreenshotTest {
                 .perform(typeText("screenshot.com"), closeSoftKeyboard());
         onView(withId(R.id.save))
                 .perform(click());
+        device.waitForIdle();
         onView(withText(addCustomURLAction))
                 .check(matches(isDisplayed()));
 
@@ -178,6 +183,7 @@ public class SettingsScreenshots extends ScreenshotTest {
         /* Remove dialog */
         onView(withText(getString(R.string.preference_autocomplete_title_remove)))
                 .check(matches(isDisplayed()));
+        TestHelper.pressBackKey();  // remove keyboard
         Screengrab.screenshot("Autocomplete_Custom_URL_Remove_Dialog");
         Espresso.pressBack();
         onView(withText(addCustomURLAction))
