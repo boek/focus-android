@@ -44,6 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withParentIndex;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static android.support.test.espresso.web.sugar.Web.onWebView;
 import static android.support.test.espresso.web.webdriver.DriverAtoms.findElement;
@@ -141,16 +142,10 @@ public class SettingsScreenshots extends ScreenshotTest {
         onView(withText(getString(R.string.preference_autocomplete_custom_summary)))
                 .perform(click());
         /* Add custom URL */
-        final String key = InstrumentationRegistry
-                .getTargetContext()
-                .getString(R.string.pref_key_screen_custom_domains);
-        onData(withKey(key))
+        onView(allOf(withText(getString(R.string.preference_autocomplete_subitem_customlist)),withParentIndex(0)))
                 .perform(click());
-<<<<<<< HEAD:app/src/androidTest/java/org/mozilla/focus/screenshots/SettingsScreenshots.java
 
-=======
         device.waitForIdle();
->>>>>>> reset after each test:app/src/androidTest/java/org/mozilla/focus/activity/screenshots/SettingsScreenshots.java
         final String addCustomURLAction = getString(R.string.preference_autocomplete_action_add);
         onView(withText(addCustomURLAction))
                 .check(matches(isDisplayed()));
