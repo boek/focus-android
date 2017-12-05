@@ -10,6 +10,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.web.webdriver.Locator;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
 
@@ -82,11 +83,13 @@ public class SettingsScreenshots extends ScreenshotTest {
         /* Language List (First page only */
         onView(withText(R.string.preference_language))
                 .perform(click());
-        device.waitForIdle();
+        UiObject CancelBtn =  device.findObject(new UiSelector()
+                .resourceId("android:id/button2")
+                .enabled(true));
+        CancelBtn.waitForExists(waitingTime);
 
         Screengrab.screenshot("Language_Selection");
-        onView(withText(R.string.action_cancel))
-                .perform(click());
+        CancelBtn.click();
         onView(withText(R.string.preference_language))
                 .check(matches(isDisplayed()));
 
