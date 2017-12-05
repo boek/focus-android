@@ -10,7 +10,6 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.web.webdriver.Locator;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiScrollable;
 import android.support.test.uiautomator.UiSelector;
 
@@ -83,16 +82,13 @@ public class SettingsScreenshots extends ScreenshotTest {
         /* Language List (First page only */
         onView(withText(R.string.preference_language))
                 .perform(click());
+        onView(withText(R.string.action_cancel))
+                .check(matches(isDisplayed()));
 
-        // Cancel button is not translated in some locales, and there are no R.id defined
-        // That can be checked in the language list dialog
-        UiObject CancelBtn =  device.findObject(new UiSelector()
-                .resourceId("android:id/button2")
-                .enabled(true));
-        CancelBtn.waitForExists(waitingTime);
 
         Screengrab.screenshot("Language_Selection");
-        CancelBtn.click();
+        onView(withText(R.string.action_cancel))
+                .perform(click());
         onView(withText(R.string.preference_language))
                 .check(matches(isDisplayed()));
 
@@ -106,9 +102,9 @@ public class SettingsScreenshots extends ScreenshotTest {
 
         /* Remove Search Engine page */
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getContext());
-        device.waitForIdle();       // wait until dialog fully appears
         onView(withText(R.string.preference_search_remove))
                 .check(matches(isDisplayed()));
+        device.waitForIdle();
         Screengrab.screenshot("SearchEngine_Search_Engine_Menu");
         // Menu items don't have ids, so we have to match by text
         onView(withText(R.string.preference_search_remove))
