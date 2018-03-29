@@ -24,13 +24,16 @@ object CustomAutocomplete {
                 .apply()
     }
 
-    suspend fun addDomain(context: Context, domain: String) {
+    suspend fun addDomain(context: Context, domain: String): Boolean {
         val domains = mutableListOf<String>()
         domains.addAll(loadCustomAutoCompleteDomains(context))
 
-        if(!domains.contains(domain)) domains.add(domain)
+        if (domains.contains(domain)) return false
 
+        domains.add(domain)
         saveDomains(context, domains)
+
+        return true
     }
 
     suspend fun removeDomains(context: Context, domains: List<String>) {

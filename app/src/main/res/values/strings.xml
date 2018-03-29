@@ -163,6 +163,9 @@
     <!-- Confirmation "snackbar" shown after a new custom autocomplete URL has been added. -->
     <string name="preference_autocomplete_add_confirmation">New custom URL added.</string>
 
+    <!-- Confirmation "snackbar" shown when trying to add a duplicate autocomplete URL. -->
+    <string name="preference_autocomplete_add_duplication">This URL already exists!</string>
+
     <!-- Menu item to remove existing autocomplete URLs. -->
     <string name="preference_autocomplete_menu_remove">Remove</string>
 

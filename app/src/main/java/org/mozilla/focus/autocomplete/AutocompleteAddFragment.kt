@@ -72,14 +72,23 @@ class AutocompleteAddFragment : Fragment() {
     }
 
     private fun saveDomainAndClose(context: Context, domain: String) {
-        launch(CommonPool) {
-            CustomAutocomplete.addDomain(context, domain)
+        var didAddDomain = false
 
+        val job = launch(CommonPool) {
+            didAddDomain = CustomAutocomplete.addDomain(context, domain)
             TelemetryWrapper.saveAutocompleteDomainEvent()
         }
 
-        ViewUtils.showBrandedSnackbar(view, R.string.preference_autocomplete_add_confirmation, 0)
+        job.invokeOnCompletion {
+            activity.runOnUiThread {
+                val message = if (didAddDomain) {
+                    R.string.preference_autocomplete_add_confirmation
+                } else R.string.preference_autocomplete_add_duplication
 
-        fragmentManager.popBackStack()
+                ViewUtils.hideKeyboard(view)
+                ViewUtils.showBrandedSnackbar(view, message, 0)
+                fragmentManager.popBackStack()
+            }
+        }
     }
 }
