@@ -14,7 +14,7 @@ object CustomAutocomplete {
 
     data class Item constructor(val domain: String, val isHttps: Boolean, val hasWww: Boolean, val domainAndPath: String) {
         companion object {
-            private val matcher = Regex("""(https?://)?(www.)?(.+)""")
+            private val matcher = Regex("""(https?://)?(www.)?(.+)?""")
 
             fun deserialize(domain: String): Item? {
                 val result = matcher.find(domain)
@@ -23,6 +23,7 @@ object CustomAutocomplete {
                     val isHttps = it.groups[1]?.value == "https://"
                     val hasWww = it.groups[2]?.value == "www."
                     val domainAndPath = it.groups[3]?.value ?: return null
+                    if (domainAndPath.isEmpty()) return null
 
                     Item(domain, isHttps, hasWww, domainAndPath)
                 }

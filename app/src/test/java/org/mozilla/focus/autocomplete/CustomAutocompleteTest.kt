@@ -39,6 +39,9 @@ class CustomAutocompleteTest {
         assertFalse(secondItem?.isHttps == true)
         assertTrue(secondItem?.hasWww == true)
         assertTrue(secondItem?.domainAndPath == "mozilla.com")
+
+        val thirdItem = CustomAutocomplete.Item.deserialize("http://www.")
+        assertTrue(thirdItem == null)
     }
 
     @Test
