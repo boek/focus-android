@@ -12,6 +12,24 @@ object CustomAutocomplete {
     private const val KEY_DOMAINS = "custom_domains"
     private const val SEPARATOR = "@<;>@"
 
+    data class Item constructor(val domain: String, val isHttps: Boolean, val hasWww: Boolean, val domainAndPath: String) {
+        companion object {
+            private val matcher = Regex("""(https?://)?(www.)?(.+)""")
+
+            fun deserialize(domain: String): Item? {
+                val result = matcher.find(domain)
+
+                return result?.let {
+                    val isHttps = it.groups[1]?.value == "https://"
+                    val hasWww = it.groups[2]?.value == "www."
+                    val domainAndPath = it.groups[3]?.value ?: return null
+
+                    Item(domain, isHttps, hasWww, domainAndPath)
+                }
+            }
+        }
+    }
+
     suspend fun loadCustomAutoCompleteDomains(context: Context): List<String> =
             preferences(context).getString(KEY_DOMAINS, "")
                 .split(SEPARATOR)
