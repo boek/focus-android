@@ -35,7 +35,7 @@ class AutocompleteRemoveFragment : AutocompleteListFragment() {
         if (domains.isNotEmpty()) {
             launch(UI) {
                 async {
-                     CustomAutocomplete.removeDomains(context, domains)
+                    CustomAutocomplete.removeDomains(context, domains)
 
                     TelemetryWrapper.removeAutocompleteDomainsEvent(domains.size)
                 }.await()

@@ -33,7 +33,6 @@ class UrlAutoCompleteFilter : InlineAutocompleteEditText.OnFilterListener {
     private var customDomains: List<CustomAutocomplete.Item> = emptyList()
     private var preInstalledDomains: List<String> = emptyList()
 
-
     fun getFullURLFor(domain: String): String? = autocompleteLookup[domain]
 
     override fun onFilter(rawSearchText: String, view: InlineAutocompleteEditText?) {
@@ -91,7 +90,7 @@ class UrlAutoCompleteFilter : InlineAutocompleteEditText.OnFilterListener {
     internal fun onDomainsLoaded(domains: List<String>, customDomains: List<CustomAutocomplete.Item>) {
         this.preInstalledDomains = domains
         this.customDomains = customDomains
-        autocompleteLookup = customDomains.associateBy({it.domainAndPath}, {it.domain})
+        autocompleteLookup = customDomains.associateBy({ it.domainAndPath }, { it.domain })
     }
 
     fun load(context: Context, loadDomainsFromDisk: Boolean = true) {

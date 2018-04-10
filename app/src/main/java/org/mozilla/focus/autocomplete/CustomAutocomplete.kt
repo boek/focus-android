@@ -14,13 +14,14 @@ object CustomAutocomplete {
 
     data class Item constructor(val domain: String, val domainAndPath: String) {
         companion object {
+            private const val DOMAIN_AND_PATH_GROUP_INDEX = 3
             private val matcher = Regex("""(https?://)?(www.)?(.+)?""")
 
             fun deserialize(domain: String): Item? {
                 val result = matcher.find(domain)
 
                 return result?.let {
-                    val domainAndPath = it.groups[3]?.value ?: return null
+                    val domainAndPath = it.groups[DOMAIN_AND_PATH_GROUP_INDEX]?.value ?: return null
                     if (domainAndPath.isEmpty()) return null
 
                     Item(domain, domainAndPath)

@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_autocomplete_add_domain.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.launch
 import org.mozilla.focus.R
-import org.mozilla.focus.ext.removePrefixesIgnoreCase
 import org.mozilla.focus.settings.BaseSettingsFragment
 import org.mozilla.focus.telemetry.TelemetryWrapper
 import org.mozilla.focus.utils.ViewUtils

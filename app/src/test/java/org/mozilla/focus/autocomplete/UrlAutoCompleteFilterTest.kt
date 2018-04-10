@@ -63,7 +63,7 @@ class UrlAutoCompleteFilterTest {
                 .apply()
 
         val domains = listOf("facebook.com", "google.com", "mozilla.org")
-        val customDomains = listOf("gap.com", "fanfiction.com", "mobile.de")
+        val customDomains = listOf("gap.com", "fanfiction.com", "mobile.de").mapNotNull { CustomAutocomplete.Item.deserialize(it) }
 
         val filter = UrlAutoCompleteFilter()
         filter.load(RuntimeEnvironment.application, false)

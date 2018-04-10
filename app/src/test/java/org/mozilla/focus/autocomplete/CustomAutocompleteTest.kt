@@ -7,7 +7,6 @@ package org.mozilla.focus.autocomplete
 import android.content.Context
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -30,15 +29,13 @@ class CustomAutocompleteTest {
     fun testCustomAutoCompleteItemDeserialization() {
         val firstItem = CustomAutocomplete.Item.deserialize("https://www.mozilla.com")
 
-        assertTrue(firstItem?.isHttps == true)
-        assertTrue(firstItem?.hasWww == true)
         assertTrue(firstItem?.domainAndPath == "mozilla.com")
+        assertTrue(firstItem?.domain == "https://www.mozilla.com")
 
         val secondItem = CustomAutocomplete.Item.deserialize("www.mozilla.com")
 
-        assertFalse(secondItem?.isHttps == true)
-        assertTrue(secondItem?.hasWww == true)
         assertTrue(secondItem?.domainAndPath == "mozilla.com")
+        assertTrue(secondItem?.domain == "www.mozilla.com")
 
         val thirdItem = CustomAutocomplete.Item.deserialize("http://www.")
         assertTrue(thirdItem == null)
@@ -59,13 +56,13 @@ class CustomAutocompleteTest {
                 "mozilla.org",
                 "example.org",
                 "example.com"
-        ))
+        ).mapNotNull { CustomAutocomplete.Item.deserialize(it) })
 
         val domains = CustomAutocomplete.loadCustomAutoCompleteDomains(RuntimeEnvironment.application)
 
         assertEquals(3, domains.size)
-        assertEquals("mozilla.org", domains.elementAt(0))
-        assertEquals("example.org", domains.elementAt(1))
-        assertEquals("example.com", domains.elementAt(2))
+        assertEquals("mozilla.org", domains.elementAt(0).domainAndPath)
+        assertEquals("example.org", domains.elementAt(1).domainAndPath)
+        assertEquals("example.com", domains.elementAt(2).domainAndPath)
     }
 }
