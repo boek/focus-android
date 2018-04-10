@@ -463,9 +463,7 @@ class UrlInputFragment :
     }
 
     override fun onCommit() {
-        val input = urlView.text.toString().let { urlViewInput ->
-            urlAutoCompleteFilter.getCustomDomains().firstOrNull { it.domainAndPath == urlViewInput }?.domain ?: urlViewInput
-        }
+        val input = urlView.text.toString().let { urlAutoCompleteFilter.getFullURLFor(it) ?: it }
 
         if (!input.trim { it <= ' ' }.isEmpty()) {
             ViewUtils.hideKeyboard(urlView)
