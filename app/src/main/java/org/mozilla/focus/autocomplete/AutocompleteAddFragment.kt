@@ -57,12 +57,12 @@ class AutocompleteAddFragment : Fragment() {
             val domain = domainView.text.toString()
                     .trim()
                     .toLowerCase()
-                    .removePrefixesIgnoreCase("http://", "https://", "www.")
+                    .let { CustomAutocomplete.Item.deserialize(it) }
 
-            if (domain.isEmpty()) {
+            domain?.apply {
+                saveDomainAndClose(activity.applicationContext, this)
+            } ?: run {
                 domainView.error = getString(R.string.preference_autocomplete_add_error)
-            } else {
-                saveDomainAndClose(activity.applicationContext, domain)
             }
 
             return true
@@ -71,7 +71,7 @@ class AutocompleteAddFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun saveDomainAndClose(context: Context, domain: String) {
+    private fun saveDomainAndClose(context: Context, domain: CustomAutocomplete.Item) {
         launch(CommonPool) {
             CustomAutocomplete.addDomain(context, domain)
 

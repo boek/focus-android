@@ -29,8 +29,10 @@ class UrlAutoCompleteFilter : InlineAutocompleteEditText.OnFilterListener {
 
     private var settings: Settings? = null
 
-    private var customDomains: List<String> = emptyList()
+    private var customDomains: List<CustomAutocomplete.Item> = emptyList()
     private var preInstalledDomains: List<String> = emptyList()
+
+    fun getcustomDomains(): List<CustomAutocomplete.Item> = customDomains
 
     override fun onFilter(rawSearchText: String, view: InlineAutocompleteEditText?) {
         if (view == null) {
@@ -42,7 +44,7 @@ class UrlAutoCompleteFilter : InlineAutocompleteEditText.OnFilterListener {
 
         settings?.let {
             if (it.shouldAutocompleteFromCustomDomainList()) {
-                val autocomplete = tryToAutocomplete(searchText, customDomains)
+                val autocomplete = tryToAutocomplete(searchText, customDomains.map { it.domainAndPath })
                 if (autocomplete != null) {
                     view.onAutocomplete(prepareAutocompleteResult(
                             rawSearchText,
@@ -84,7 +86,7 @@ class UrlAutoCompleteFilter : InlineAutocompleteEditText.OnFilterListener {
         return null
     }
 
-    internal fun onDomainsLoaded(domains: List<String>, customDomains: List<String>) {
+    internal fun onDomainsLoaded(domains: List<String>, customDomains: List<CustomAutocomplete.Item>) {
         this.preInstalledDomains = domains
         this.customDomains = customDomains
     }

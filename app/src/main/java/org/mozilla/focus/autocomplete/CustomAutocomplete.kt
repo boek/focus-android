@@ -12,7 +12,7 @@ object CustomAutocomplete {
     private const val KEY_DOMAINS = "custom_domains"
     private const val SEPARATOR = "@<;>@"
 
-    data class Item constructor(val domain: String, val isHttps: Boolean, val hasWww: Boolean, val domainAndPath: String) {
+    data class Item constructor(val domain: String, val domainAndPath: String) {
         companion object {
             private val matcher = Regex("""(https?://)?(www.)?(.+)?""")
 
@@ -20,38 +20,37 @@ object CustomAutocomplete {
                 val result = matcher.find(domain)
 
                 return result?.let {
-                    val isHttps = it.groups[1]?.value == "https://"
-                    val hasWww = it.groups[2]?.value == "www."
                     val domainAndPath = it.groups[3]?.value ?: return null
                     if (domainAndPath.isEmpty()) return null
 
-                    Item(domain, isHttps, hasWww, domainAndPath)
+                    Item(domain, domainAndPath)
                 }
             }
         }
     }
 
-    suspend fun loadCustomAutoCompleteDomains(context: Context): List<String> =
+    suspend fun loadCustomAutoCompleteDomains(context: Context): List<Item> =
             preferences(context).getString(KEY_DOMAINS, "")
                 .split(SEPARATOR)
                 .filter { !it.isEmpty() }
+                .mapNotNull { Item.deserialize(it) }
 
-    fun saveDomains(context: Context, domains: List<String>) {
+    fun saveDomains(context: Context, domains: List<Item>) {
         preferences(context)
                 .edit()
-                .putString(KEY_DOMAINS, domains.joinToString(separator = SEPARATOR))
+                .putString(KEY_DOMAINS, domains.joinToString(separator = SEPARATOR, transform = { it.domain }))
                 .apply()
     }
 
-    suspend fun addDomain(context: Context, domain: String) {
-        val domains = mutableListOf<String>()
+    suspend fun addDomain(context: Context, domain: Item) {
+        val domains = mutableListOf<Item>()
         domains.addAll(loadCustomAutoCompleteDomains(context))
         domains.add(domain)
 
         saveDomains(context, domains)
     }
 
-    suspend fun removeDomains(context: Context, domains: List<String>) {
+    suspend fun removeDomains(context: Context, domains: List<Item>) {
         saveDomains(context, loadCustomAutoCompleteDomains(context) - domains)
     }
 

@@ -164,8 +164,8 @@ open class AutocompleteListFragment : Fragment() {
      * Adapter implementation for the list of custom autocomplete domains.
      */
     inner class DomainListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        private val domains: MutableList<String> = mutableListOf()
-        private val selectedDomains: MutableList<String> = mutableListOf()
+        private val domains: MutableList<CustomAutocomplete.Item> = mutableListOf()
+        private val selectedDomains: MutableList<CustomAutocomplete.Item> = mutableListOf()
 
         fun refresh(context: Context, body: (() -> Unit)? = null) {
             launch(UI) {
@@ -217,7 +217,7 @@ open class AutocompleteListFragment : Fragment() {
             }
         }
 
-        fun selection(): List<String> = selectedDomains
+        fun selection(): List<CustomAutocomplete.Item> = selectedDomains
 
         fun move(from: Int, to: Int) {
             Collections.swap(domains, from, to)
@@ -244,12 +244,12 @@ open class AutocompleteListFragment : Fragment() {
         }
 
         fun bind(
-                domain: String,
+                domain: CustomAutocomplete.Item,
                 isSelectionMode: Boolean,
-                selectedDomains: MutableList<String>,
+                selectedDomains: MutableList<CustomAutocomplete.Item>,
                 itemTouchHelper: ItemTouchHelper,
                 fragment: AutocompleteListFragment) {
-            domainView.text = domain
+            domainView.text = domain.domainAndPath
 
             checkBoxView.visibility = if (isSelectionMode) View.VISIBLE else View.GONE
             checkBoxView.isChecked = selectedDomains.contains(domain)

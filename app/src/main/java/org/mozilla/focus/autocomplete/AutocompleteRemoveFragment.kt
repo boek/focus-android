@@ -31,10 +31,11 @@ class AutocompleteRemoveFragment : AutocompleteListFragment() {
 
     private fun removeSelectedDomains(context: Context) {
         val domains = (domainList.adapter as DomainListAdapter).selection()
+
         if (domains.isNotEmpty()) {
             launch(UI) {
                 async {
-                    CustomAutocomplete.removeDomains(context, domains)
+                     CustomAutocomplete.removeDomains(context, domains)
 
                     TelemetryWrapper.removeAutocompleteDomainsEvent(domains.size)
                 }.await()
