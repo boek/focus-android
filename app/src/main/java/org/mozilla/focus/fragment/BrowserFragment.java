@@ -218,6 +218,15 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
 
         urlView = (TextView) view.findViewById(R.id.display_url);
 
+        urlView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                TextView v = (TextView)view;
+                Log.d("Hello world!", "onLongClick: " + v.getText());
+                return true;
+            }
+        });
+
         progressView = (AnimatedProgressBar) view.findViewById(R.id.progress);
 
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
