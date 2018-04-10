@@ -32,7 +32,7 @@ class UrlAutoCompleteFilter : InlineAutocompleteEditText.OnFilterListener {
     private var customDomains: List<CustomAutocomplete.Item> = emptyList()
     private var preInstalledDomains: List<String> = emptyList()
 
-    fun getcustomDomains(): List<CustomAutocomplete.Item> = customDomains
+    fun getCustomDomains(): List<CustomAutocomplete.Item> = customDomains
 
     override fun onFilter(rawSearchText: String, view: InlineAutocompleteEditText?) {
         if (view == null) {
