@@ -50,6 +50,7 @@ import org.mozilla.focus.activity.InstallFirefoxActivity;
 import org.mozilla.focus.activity.MainActivity;
 import org.mozilla.focus.animation.TransitionDrawableGroup;
 import org.mozilla.focus.architecture.NonNullObserver;
+import org.mozilla.focus.autocomplete.AddCustomAutocompleteDialog;
 import org.mozilla.focus.broadcastreceiver.DownloadBroadcastReceiver;
 import org.mozilla.focus.customtabs.CustomTabConfig;
 import org.mozilla.focus.locale.LocaleAwareAppCompatActivity;
@@ -221,8 +222,14 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
         urlView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+
                 TextView v = (TextView)view;
                 Log.d("Hello world!", "onLongClick: " + v.getText());
+
+                Context context = getContext();
+                if (context == null) { return false; }
+
+                AddCustomAutocompleteDialog.show(context, v.getText().toString());
                 return true;
             }
         });
