@@ -26,6 +26,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -1321,7 +1322,9 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
         findInPageView.setVisibility(View.VISIBLE);
         findInPageQuery.requestFocus();
 
-        swipeRefresh.setPadding(0, 0, 0, findInPageViewHeight);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) swipeRefresh.getLayoutParams();
+        params.bottomMargin = findInPageViewHeight;
+        swipeRefresh.setLayoutParams(params);
     }
 
     private void hideFindInPage() {
@@ -1335,7 +1338,10 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
         findInPageView.setVisibility(View.GONE);
         findInPageQuery.setText("");
         findInPageQuery.clearFocus();
-        swipeRefresh.setPadding(0, 0, 0, 0);
+
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) swipeRefresh.getLayoutParams();
+        params.bottomMargin = 0;
+        swipeRefresh.setLayoutParams(params);
         ViewUtils.hideKeyboard(findInPageQuery);
     }
 
