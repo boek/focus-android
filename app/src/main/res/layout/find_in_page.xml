@@ -8,10 +8,10 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/photonGrey80"
-    android:orientation="horizontal"
+    android:background="@drawable/find_in_page_background"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:orientation="horizontal">
 
     <EditText
         android:id="@+id/queryText"
@@ -20,13 +20,13 @@
         android:layout_marginStart="12dp"
         android:background="@android:color/transparent"
         android:ems="10"
+        android:gravity="center_vertical"
         android:hint="@string/find_in_page_input"
+        android:inputType="textNoSuggestions"
         android:lines="1"
         android:maxLines="1"
-        android:inputType="textNoSuggestions"
         android:textCursorDrawable="@drawable/cursor"
         android:textSize="14sp"
-        android:gravity="center_vertical"
         app:layout_constraintEnd_toStartOf="@id/resultText"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -36,9 +36,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:alpha="0.6"
+        android:textColor="@color/photonGrey10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/queryText"
         app:layout_constraintEnd_toStartOf="@id/previousResult"
+        app:layout_constraintStart_toEndOf="@+id/queryText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -46,9 +48,11 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="6dp"
+        android:alpha=".6"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/accessibility_previous_result"
         android:src="@drawable/ic_arrowhead_up"
+        android:tint="@color/photonGrey10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/nextResult"
         app:layout_constraintStart_toEndOf="@+id/resultText"
@@ -59,9 +63,11 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="6dp"
+        android:alpha=".6"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/accessibility_next_result"
         android:src="@drawable/ic_arrowhead_down"
+        android:tint="@color/photonGrey10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/close_find_in_page"
         app:layout_constraintStart_toEndOf="@+id/previousResult"
@@ -75,6 +81,7 @@
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/accessibility_dismiss_find_in_page"
         android:src="@drawable/ic_close"
+        android:tint="@color/photonWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nextResult"

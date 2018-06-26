@@ -155,6 +155,9 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
     private int findInPageViewHeight;
     private TextView findInPageQuery;
     private TextView findInPageResultTextView;
+    private ImageButton findInPageNext;
+    private ImageButton findInPagePrevious;
+    private ImageButton closeFindInPage;
 
     private IWebView.FullscreenCallback fullscreenCallback;
 
@@ -308,13 +311,13 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
             }
         });
 
-        final ImageButton findInPagePrevious = view.findViewById(R.id.previousResult);
+        findInPagePrevious = view.findViewById(R.id.previousResult);
         findInPagePrevious.setOnClickListener(this);
 
-        final ImageButton findInPageNext = view.findViewById(R.id.nextResult);
+        findInPageNext = view.findViewById(R.id.nextResult);
         findInPageNext.setOnClickListener(this);
 
-        final ImageButton closeFindInPage = view.findViewById(R.id.close_find_in_page);
+        closeFindInPage = view.findViewById(R.id.close_find_in_page);
         closeFindInPage.setOnClickListener(this);
 
         setBlockingEnabled(session.isBlockingEnabled());
@@ -1377,6 +1380,10 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
         if (numberOfMatches > 0) {
             // We don't want the presentation of the activeMatchOrdinal to be zero indexed. So let's
             // increment it by one.
+            findInPageNext.setColorFilter(getResources().getColor(R.color.photonWhite));
+            findInPageNext.setAlpha(1.0F);
+            findInPagePrevious.setColorFilter(getResources().getColor(R.color.photonWhite));
+            findInPagePrevious.setAlpha(1.0F);
             activeMatchOrdinal++;
             final String visibleString = String.format(context.getString(R.string.find_in_page_result), activeMatchOrdinal, numberOfMatches);
             final String accessibleString = String.format(context.getString(R.string.find_in_page_result), activeMatchOrdinal, numberOfMatches);
@@ -1384,6 +1391,10 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
             findInPageResultTextView.setText(visibleString);
             findInPageResultTextView.setContentDescription(accessibleString);
         } else {
+            findInPageNext.setColorFilter(getResources().getColor(R.color.photonGrey10));
+            findInPageNext.setAlpha(0.4F);
+            findInPagePrevious.setColorFilter(getResources().getColor(R.color.photonWhite));
+            findInPagePrevious.setAlpha(0.4F);
             findInPageResultTextView.setText("");
             findInPageResultTextView.setContentDescription("");
         }
