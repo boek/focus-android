@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="48dp"
     android:background="@color/photonGrey80"
     android:orientation="horizontal"
     android:clickable="true"
@@ -27,6 +27,8 @@
         android:paddingBottom="17dp"
         android:paddingTop="17dp"
         android:textCursorDrawable="@drawable/cursor"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
         app:layout_constraintEnd_toStartOf="@id/resultText"
         app:layout_constraintStart_toStartOf="parent" />
 

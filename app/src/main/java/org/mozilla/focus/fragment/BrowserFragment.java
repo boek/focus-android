@@ -37,11 +37,13 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
@@ -294,6 +296,17 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
                     }
                 }
         );
+        findInPageQuery.setOnClickListener(this);
+        findInPageQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    ViewUtils.hideKeyboard(findInPageQuery);
+                    findInPageQuery.setCursorVisible(false);
+                }
+                return false;
+            }
+        });
 
         final ImageButton findInPagePrevious = view.findViewById(R.id.previousResult);
         findInPagePrevious.setOnClickListener(this);
@@ -1117,7 +1130,14 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
                 TelemetryWrapper.findInPageMenuEvent();
                 break;
 
+            case R.id.queryText:
+                findInPageQuery.setCursorVisible(true);
+                break;
+
             case R.id.nextResult: {
+                ViewUtils.hideKeyboard(findInPageQuery);
+                findInPageQuery.setCursorVisible(false);
+
                 final IWebView webView = getWebView();
                 if (webView == null) {
                     break;
@@ -1128,6 +1148,9 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
             }
 
             case R.id.previousResult: {
+                ViewUtils.hideKeyboard(findInPageQuery);
+                findInPageQuery.setCursorVisible(false);
+
                 final IWebView webView = getWebView();
                 if (webView == null) {
                     break;
