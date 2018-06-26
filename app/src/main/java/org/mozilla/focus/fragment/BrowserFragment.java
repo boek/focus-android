@@ -302,8 +302,8 @@ public class BrowserFragment extends WebFragment implements View.OnClickListener
         findInPageQuery.setOnClickListener(this);
         findInPageQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE) {
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     ViewUtils.hideKeyboard(findInPageQuery);
                     findInPageQuery.setCursorVisible(false);
                 }
