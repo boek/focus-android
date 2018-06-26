@@ -11,13 +11,14 @@
     android:background="@drawable/find_in_page_background"
     android:clickable="true"
     android:focusable="true"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
     android:orientation="horizontal">
 
     <EditText
         android:id="@+id/queryText"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginStart="12dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="center_vertical"
@@ -45,9 +46,9 @@
 
     <ImageButton
         android:id="@+id/previousResult"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="6dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
         android:alpha=".6"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/accessibility_previous_result"
@@ -60,9 +61,9 @@
 
     <ImageButton
         android:id="@+id/nextResult"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="6dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp"
         android:alpha=".6"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/accessibility_next_result"
@@ -75,9 +76,8 @@
 
     <ImageButton
         android:id="@+id/close_find_in_page"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="12dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/accessibility_dismiss_find_in_page"
         android:src="@drawable/ic_close"
