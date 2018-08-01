@@ -619,4 +619,7 @@ be temporary, and you can try again later.</li>
 
     <!-- Preference to enable remote debugging of the app via USB or Wi-Fi -->
     <string name="preference_remote_debugging">Remote debugging via USB/Wi-Fi</string>
+    <string name="enable_search_suggestion_label">Would you like to turn on search suggestions?</string>
+    <string name="enable_search_suggestions_no">NO</string>
+    <string name="enable_search_suggestions_yes">YES</string>
 </resources>
