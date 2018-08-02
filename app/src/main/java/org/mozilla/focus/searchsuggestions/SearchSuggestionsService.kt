@@ -13,9 +13,8 @@ import mozilla.components.browser.search.SearchEngine
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-class SearchSuggestionsService(private val context: Context) {
-    private var searchEngine: SearchEngine? = null
-    private var client: SearchSuggestionClient? = null
+class SearchSuggestionsService(searchEngine: SearchEngine) {
+    private var client: SearchSuggestionClient = SearchSuggestionClient(searchEngine, { fetch(it) })
     private var httpClient = OkHttpClient()
 
     private val _canProvideSearchSuggestions = MutableLiveData<Boolean>()
@@ -23,11 +22,9 @@ class SearchSuggestionsService(private val context: Context) {
         get() = _canProvideSearchSuggestions
 
     private fun fetch(url: String): String? {
-        httpClient.dispatcher().queuedCalls().forEach {
-            if (it.request().tag() == REQUEST_TAG) {
-                it.cancel()
-            }
-        }
+        httpClient.dispatcher().queuedCalls()
+                .filter { it.request().tag() == REQUEST_TAG }
+                .forEach { it.cancel() }
 
         val request = Request.Builder()
                 .tag(REQUEST_TAG)
@@ -40,11 +37,10 @@ class SearchSuggestionsService(private val context: Context) {
     fun getSuggestions(query: String): LiveData<Pair<String, List<String>>> {
         val result = MutableLiveData<Pair<String, List<String>>>()
 
-        if (shouldUpdateclient()) { updateClient() }
         if (query.isBlank()) { result.value = Pair(query, listOf()) }
 
         launch(CommonPool) {
-            val suggestions = client?.getSuggestions(query) ?: listOf()
+            val suggestions = client.getSuggestions(query) ?: listOf()
 
             launch(UI) {
                 result.value = Pair(query, suggestions)
@@ -54,23 +50,7 @@ class SearchSuggestionsService(private val context: Context) {
         return result
     }
 
-    private fun shouldUpdateclient(): Boolean {
-        val defaultSearchEngineName= Settings.getInstance(context).defaultSearchEngineName
-        return searchEngine?.let { it.name != defaultSearchEngineName } ?: true
-    }
-
-    private fun updateClient() {
-        val defaultIdentifier = Settings.getInstance(context).defaultSearchEngineName
-
-        searchEngine = Components.searchEngineManager
-                .getDefaultSearchEngine(context, defaultIdentifier)
-
-        _canProvideSearchSuggestions.value = searchEngine?.canProvideSearchSuggestions ?: false
-
-        client = SearchSuggestionClient(searchEngine!!, { fetch(it) })
-    }
-
     companion object {
-        private val REQUEST_TAG = "searchSuggestionFetch"
+        private const val REQUEST_TAG = "searchSuggestionFetch"
     }
 }
