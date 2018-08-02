@@ -2,12 +2,9 @@ package org.mozilla.focus.searchsuggestions
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.content.Context
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import mozilla.components.browser.search.suggestions.SearchSuggestionClient
-import org.mozilla.focus.Components
-import org.mozilla.focus.utils.Settings
 import kotlinx.coroutines.experimental.launch
 import mozilla.components.browser.search.SearchEngine
 import okhttp3.OkHttpClient
@@ -18,8 +15,7 @@ class SearchSuggestionsService(searchEngine: SearchEngine) {
     private var httpClient = OkHttpClient()
 
     private val _canProvideSearchSuggestions = MutableLiveData<Boolean>()
-    val canProvideSearchSuggestions: LiveData<Boolean>
-        get() = _canProvideSearchSuggestions
+    val canProvideSearchSuggestions: LiveData<Boolean> = _canProvideSearchSuggestions
 
     private fun fetch(url: String): String? {
         httpClient.dispatcher().queuedCalls()
@@ -48,6 +44,10 @@ class SearchSuggestionsService(searchEngine: SearchEngine) {
         }
 
         return result
+    }
+
+    fun updateSearchEngine(searchEngine: SearchEngine) {
+        client = SearchSuggestionClient(searchEngine, { fetch(it) })
     }
 
     companion object {

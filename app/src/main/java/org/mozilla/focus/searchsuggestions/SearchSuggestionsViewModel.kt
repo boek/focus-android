@@ -60,11 +60,11 @@ class SearchSuggestionsViewModel(
 
     class Factory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            val searchSuggestionsPreferences = SearchSuggestionsPreferences(context)
-            val repository = SearchSuggestionsService()
+            val preferences = SearchSuggestionsPreferences(context)
+            val service = SearchSuggestionsService(preferences.searchEngine.value!!)
 
             @Suppress("UNCHECKED_CAST")
-            return SearchSuggestionsViewModel(repository) as T
+            return SearchSuggestionsViewModel(service, preferences) as T
         }
     }
 }
