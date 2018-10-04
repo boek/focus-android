@@ -6,10 +6,15 @@ package org.mozilla.focus.biometrics
 
 import android.content.Context
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import android.app.KeyguardManager
 
 object Biometrics {
     fun hasFingerprintHardware(context: Context): Boolean {
         val fingerprintManager = FingerprintManagerCompat.from(context)
-        return fingerprintManager.isHardwareDetected && fingerprintManager.hasEnrolledFingerprints()
+        val keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+        return keyguardManager.isKeyguardSecure &&
+                fingerprintManager.isHardwareDetected &&
+                fingerprintManager.hasEnrolledFingerprints()
     }
 }

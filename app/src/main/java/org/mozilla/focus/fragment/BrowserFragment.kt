@@ -780,8 +780,13 @@ class BrowserFragment : WebFragment(), LifecycleObserver, View.OnClickListener,
             Settings.getInstance(context!!).shouldUseBiometrics() &&
             Biometrics.hasFingerprintHardware(context!!)
         ) {
+            if (biometricController == null) {
+                biometricController = BiometricAuthenticationHandler(context!!)
+            }
+
             displayBiometricPromptIfNeeded()
         } else {
+            biometricController = null
             view!!.alpha = 1f
         }
     }
